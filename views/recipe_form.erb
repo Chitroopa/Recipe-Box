@@ -6,23 +6,19 @@
   </div>
 
   <!-- Add ingredients -->
+  <!-- <% @ingredients = Ingredient.all() %> -->
   <%  if @ingredients.any?()  %>
   <h4>Select the ingredients or add new</h4>
     <% @ingredients.each() do |ingredient| %>
       <div class="checkbox">
         <label>
-          <input type="checkbox" name="ingredients_ids[]" value="<%= ingredient.id() %>"><%= ingredient.name()%>
+          <input type="checkbox" name="ingredient_ids[]" value="<%= ingredient.id() %>"><%= ingredient.name()%>
         </label>
       </div>
       <% end %>
   <% else %>
     <h5>No ingredients available, can you please add your ingredients</h5>
-    <!-- <a href="/ingredients/new" class = "btn btn-success active" role = "button">Add ingredients</a> -->
-  <% end %>
-
-
-
-
+  <% end  %>
 
 
   <div class="form-group">
@@ -42,10 +38,22 @@
   <button type="submit" class="btn btn-primary">Save</button>
 </form>
 
-<% if (@new_recipe != nil ) && (@new_recipe.errors().any?()) %>
+<button class="btn btn-danger add-ingredients mt-3" name="button">Add Ingredient</button>
+
+<div id="add-ingredients">
+  <form action="/ingredients/new" method="post">
+    <div class="form-group">
+      <label for="ingredient-name">Ingredient: </label>
+      <input id="ingredient-name" name="ingredient-name" type="text"  class="form-control">
+    </div>
+    <button type="submit" class="btn btn-secondary">Add</button>
+  </form>
+</div>
+
+<% if (@errors != nil ) && (@errors.errors().any?()) %>
   <h3>Oops there were some errors:</h3>
   <ul>
-    <% @new_recipe.errors().full_messages().each() do |message| %>
+    <% @errors.errors().full_messages().each() do |message| %>
       <li><%= message %></li>
     <% end %>
   </ul>
