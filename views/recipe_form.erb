@@ -1,4 +1,4 @@
-<h1>ADD Recipe</h1>
+<h1>Add Recipe</h1>
 <form action="/recipes/new" method="post">
   <div class="form-group">
     <label for="name">Name: </label>
@@ -10,14 +10,27 @@
   <%  if @ingredients.any?()  %>
   <h4>Select the ingredients or add new</h4>
     <% @ingredients.each() do |ingredient| %>
-      <div class="checkbox">
-        <label>
-          <input type="checkbox" name="ingredient_ids[]" value="<%= ingredient.id() %>"><%= ingredient.name()%>
+      <div class="checkbox form-check-inline">
+        <label class="form-check-label">
+          <input type="checkbox" name="ingredient_ids[]" value="<%= ingredient.id() %>"> <%= ingredient.name()%>
         </label>
       </div>
       <% end %>
   <% else %>
     <h5>No ingredients available, can you please add your ingredients</h5>
+  <% end  %>
+
+  <%  if (@categories != nil ) && @categories.any?()  %>
+  <h4>Select the tags or add new</h4>
+    <% @categories.each() do |category| %>
+      <div class="checkbox form-check-inline">
+        <label class="form-check-label">
+          <input type="checkbox" name="category_ids[]" value="<%= category.id() %>"> <%= category.name()%>
+        </label>
+      </div>
+      <% end %>
+  <% else %>
+    <h5>No categories available, can you please add your categories</h5>
   <% end  %>
 
 
@@ -38,6 +51,8 @@
   <button type="submit" class="btn btn-primary">Save</button>
 </form>
 
+
+<!-- Add Ingredient -->
 <button class="btn btn-danger add-ingredients mt-3" name="button">Add Ingredient</button>
 
 <div id="add-ingredients">
@@ -50,6 +65,21 @@
   </form>
 </div>
 
+<!-- Add categories -->
+
+<button class="btn btn-success add-categories mt-3" name="button">Create Tag</button>
+
+<div id="add-categories">
+  <form action="/categories/new" method="post">
+    <div class="form-group">
+      <label for="category-name">Enter a tag name </label>
+      <input id="category-name" name="category-name" type="text"  class="form-control">
+    </div>
+    <button type="submit" class="btn btn-secondary">Add</button>
+  </form>
+</div>
+
+<!-- Error handling -->
 <% if (@errors != nil ) && (@errors.errors().any?()) %>
   <h3>Oops there were some errors:</h3>
   <ul>

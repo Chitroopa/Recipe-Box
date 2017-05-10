@@ -11,6 +11,7 @@ end
 
 get('/recipes/new') do
   @ingredients = Ingredient.all()
+  @categories = Category.all()
   erb(:recipe_form)
 end
 
@@ -18,10 +19,14 @@ post('/recipes/new') do
   name = params.fetch('name')
   instruction = params.fetch('instruction')
   rating = params.fetch('rating')
-  ingredient_ids = params.fetch("ingredient_ids")
+
   @new_recipe = Recipe.new({:name => name, :instruction => instruction, :rating => rating})
   if @new_recipe.save()
+    ingredient_ids = params.fetch("ingredient_ids")
     @new_recipe.update({:ingredient_ids => ingredient_ids})
+    category_ids = params.fetch('category_ids')
+    @new_recipe.update({:category_ids => category_ids})
+    binding.pry
     redirect("/")
   else
     @errors = @new_recipe
@@ -36,6 +41,17 @@ post('/ingredients/new') do
     redirect("/recipes/new")
   else
     @errors = @new_ingredient
+    erb(:recipe_form)
+  end
+end
+
+post('/categories/new') do
+  category_name = params.fetch('category-name')
+  @new_category = Category.new(:name => category_name)
+  if @new_category.save()
+    redirect("/recipes/new")
+  else
+    @errors = @new_category
     erb(:recipe_form)
   end
 end
