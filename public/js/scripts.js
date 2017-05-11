@@ -1,11 +1,23 @@
 $(document).ready(function(){
    $('.add-ingredients').click(function(){
-     $('#add-ingredients').show();
+     $('#add-ingredients').toggle();
    });
    $('.add-categories').click(function(){
-     $('#add-categories').show();
+     $('#add-categories').toggle();
    });
    $('.rename-tag').click(function(){
-     $('#rename-tag').show();
+     $('#rename-tag').toggle();
+   });
+   $('#edit_rating').click(function(){
+     $('.edit_rating').toggle();
+   });
+   $('#edit_ingredient').click(function(){
+     $('.edit_ingredient').toggle();
+   });
+   $('#edit_instruction').click(function(){
+     $('.edit_instruction').toggle();
+   });
+   $('#edit_category').click(function(){
+     $('.edit_category').toggle();
    });
 });

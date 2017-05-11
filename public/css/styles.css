@@ -3,3 +3,10 @@
 #rename-tag {
   display: none;
 }
+
+.edit_rating,
+.edit_ingredient,
+.edit_instruction,
+.edit_category {
+  display: none;
+}

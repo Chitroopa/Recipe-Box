@@ -26,12 +26,11 @@ post('/recipes/new') do
   name = params.fetch('name')
   instruction = params.fetch('instruction')
   rating = params.fetch('rating')
-
   @new_recipe = Recipe.new({:name => name, :instruction => instruction, :rating => rating})
   if @new_recipe.save()
-    ingredient_ids = params.fetch("ingredient_ids")
+    ingredient_ids = params.fetch("ingredient_ids",nil)
     @new_recipe.update({:ingredient_ids => ingredient_ids})
-    category_ids = params.fetch('category_ids')
+    category_ids = params.fetch('category_ids', nil)
     @new_recipe.update({:category_ids => category_ids})
     redirect("/")
   else
@@ -65,6 +64,8 @@ end
 get('/recipes/view/:id') do
   id = params.fetch('id').to_i()
   @recipe = Recipe.find(id)
+  @ingredients = Ingredient.all()
+  @categories = Category.all()
   erb(:recipe)
 end
 
@@ -73,6 +74,37 @@ delete('/recipes/view/:id') do
   @recipe = Recipe.find(id)
   @recipe.delete
   redirect("/")
+end
+
+#update rating
+patch('/recipes/view/:recipe_id/edit/rating') do
+  id = params.fetch('recipe_id').to_i()
+  rating = params.fetch('rating')
+  @recipe = Recipe.find(id)
+  @recipe.update({:rating => rating})
+  redirect('/recipes/view/'.concat(id.to_s()))
+end
+
+delete ('/recipes/view/:recipe_id/edit/ingredient/remove') do
+  id = params.fetch('recipe_id').to_i()
+  ingredient_ids = params.fetch('ingredient_ids')
+  @recipe = Recipe.find(id)
+  ingredient_ids.each do |ingredient|
+    @recipe.ingredients.delete(ingredient)
+  end
+  redirect('/recipes/view/'.concat(id.to_s()))
+end
+
+patch('/recipes/view/:recipe_id/edit/ingredient/add') do
+  id = params.fetch('recipe_id').to_i()
+  ingredient_ids = params.fetch('ingredient_ids')
+  @recipe = Recipe.find(id)
+  # @recipe.update({:ingredient_ids => ingredient_ids})
+  ingredient_ids.each do |ingredient_id|
+    ingredient = Ingredient.find(ingredient_id.to_i())
+    @recipe.ingredients.push(ingredient)
+  end
+  redirect('/recipes/view/'.concat(id.to_s()))
 end
 
 get('/recipes/view/:recipe_id/categories/view/:category_id') do

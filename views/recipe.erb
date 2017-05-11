@@ -1,9 +1,10 @@
 <h1>Recipe Name: <%= @recipe.name() %></h1>
 <p>
-  Rating: <%= @recipe.rating() %>/5
+  Rating: <%= @recipe.rating() %>/5 <span><img id="edit_rating" class="mb-1 ml-2" src="/img/pen_small.png"></span>
 </p>
+
 <p>
-  Ingredients:
+  Ingredients:<span><img id="edit_ingredient" class="mb-1 ml-2" src="/img/pen_small.png"></span>
     <ul>
       <% @recipe.ingredients.each() do |ingredient| %>
         <li><%= ingredient.name() %></a></li>
@@ -11,12 +12,12 @@
     </ul>
 </p>
 
-<p>
-  Instruction: <%= @recipe.instruction() %>
-</p>
+<p>Instruction:<span><img id="edit_instruction" class="mb-1 ml-2" src="/img/pen_small.png"></span></p>
+  <p><%= @recipe.instruction() %></p>
+
 
 <p>
-  Tagged under:
+  Tagged under: <span><img id="edit_category" class="mb-1 ml-2" src="/img/pen_small.png"></span>
     <ul>
       <% @recipe.categories.each() do |category| %>
         <li><a href="/recipes/view/<%= @recipe.id() %>/categories/view/<%= category.id %>"><%= category.name() %></a></li>
@@ -34,4 +35,79 @@
       <button class = "btn btn-danger active" type="submit">Delete recipe</button>
     </form>
   </div>
+</div>
+
+<!-- edit rating -->
+<div class="edit_rating">
+  <form action="/recipes/view/<%= @recipe.id() %>/edit/rating" method="post">
+    <input type="hidden" name="_method" value="patch">
+    <div class="form-group">
+      <label for="rating">Rate again</label>
+      <select class="form-control" id="rating" name="rating">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-secondary">change rating</button>
+  </form>
+</div>
+
+<!-- edit ingredients -->
+
+<div class="edit_ingredient">
+  <form action="/recipes/view/<%= @recipe.id() %>/edit/ingredient/add" method="post">
+    <input type="hidden" name="_method" value="patch">
+    <% @ingredients.each() do |ingredient| %>
+      <div class="checkbox form-check-inline">
+        <label class="form-check-label">
+          <input type="checkbox" name="ingredient_ids[]" value="<%= ingredient.id() %>"> <%= ingredient.name()%>
+        </label>
+      </div>
+    <% end  %>
+    <br>
+    <button type="submit" class="btn btn-secondary">Add ingredients</button>
+  </form>
+  <form action="/recipes/view/<%= @recipe.id() %>/edit/ingredient/remove" method="post">
+    <input type="hidden" name="_method" value="delete">
+    <% @recipe.ingredients.each() do |ingredient| %>
+      <div class="checkbox form-check-inline">
+        <label class="form-check-label">
+          <input type="checkbox" name="ingredient_ids[]" value="<%= ingredient.id() %>"> <%= ingredient.name()%>
+        </label>
+      </div>
+    <% end  %>
+    <br>
+    <button type="submit" class="btn btn-secondary">Remove ingredients</button>
+  </form>
+</div>
+
+<!-- edit instruction -->
+<div class="edit_instruction">
+  <form action="/recipes/view/<%= @recipe.id() %>/edit/instruction" method="post">
+    <input type="hidden" name="_method" value="patch">
+    <div class="form-group">
+      <label for="instruction"> Change instruction</label>
+      <textarea class="form-control" id="instruction" name="instruction" rows="3" ><%= @recipe.instruction() %></textarea>
+    </div>
+    <button type="submit" class="btn btn-secondary">Update</button>
+  </form>
+</div>
+
+<!-- edit category -->
+<div class="edit_category">
+  <form action="/recipes/view/<%= @recipe.id() %>/edit/category" method="post">
+    <input type="hidden" name="_method" value="patch">
+    <% @categories.each() do |category| %>
+      <div class="checkbox form-check-inline">
+        <label class="form-check-label">
+          <input type="checkbox" name="category_ids[]" value="<%= category.id() %>"> <%= category.name()%>
+        </label>
+      </div>
+      <% end %>
+    <br>
+    <button type="submit" class="btn btn-secondary">Update</button>
+  </form>
 </div>
