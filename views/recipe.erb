@@ -1,0 +1,37 @@
+<h1>Recipe Name: <%= @recipe.name() %></h1>
+<p>
+  Rating: <%= @recipe.rating() %>/5
+</p>
+<p>
+  Ingredients:
+    <ul>
+      <% @recipe.ingredients.each() do |ingredient| %>
+        <li><%= ingredient.name() %></a></li>
+      <% end  %>
+    </ul>
+</p>
+
+<p>
+  Instruction: <%= @recipe.instruction() %>
+</p>
+
+<p>
+  Tagged under:
+    <ul>
+      <% @recipe.categories.each() do |category| %>
+        <li><a href="/recipes/view/<%= @recipe.id() %>/categories/view/<%= category.id %>"><%= category.name() %></a></li>
+      <% end  %>
+    </ul>
+</p>
+<div class="row">
+  <br>
+  <div class="col-md-2">
+    <a href="/" class = "btn btn-success active" role = "button">Home</a>
+  </div>
+  <div class="col-md-2">
+    <form action="/recipes/view/<%= @recipe.id() %>" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <button class = "btn btn-danger active" type="submit">Delete recipe</button>
+    </form>
+  </div>
+</div>

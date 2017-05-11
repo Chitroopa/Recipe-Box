@@ -14,4 +14,13 @@ describe(Recipe) do
       expect(test_recipe.categories()).to eq([test_category])
     end
   end
+
+  describe(".sort_by_rating") do
+    it("sorts recipes by rating") do
+      test_recipe1 = Recipe.create({:name => "Butter Chicken", :instruction => "kfhkfjhffh njkhdijd jlkdjdj jojkdj jjd. ikdhdjhhf jkdj j.", :rating => 3})
+      test_recipe2 = Recipe.create({:name => "Butter Chicken", :instruction => "kfhkfjhffh njkhdijd jlkdjdj jojkdj jjd. ikdhdjhhf jkdj j.", :rating => 1})
+      test_recipe3 = Recipe.create({:name => "Butter Chicken", :instruction => "kfhkfjhffh njkhdijd jlkdjdj jojkdj jjd. ikdhdjhhf jkdj j.", :rating => 5})
+      expect(Recipe.sort_by_rating()).to eq([test_recipe3, test_recipe1, test_recipe2])
+    end
+  end
 end

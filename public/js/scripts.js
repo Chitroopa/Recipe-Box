@@ -5,4 +5,7 @@ $(document).ready(function(){
    $('.add-categories').click(function(){
      $('#add-categories').show();
    });
+   $('.rename-tag').click(function(){
+     $('#rename-tag').show();
+   });
 });

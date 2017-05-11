@@ -1,0 +1,11 @@
+<h2> Here are the top rated recipe</h2>
+<% if @recipes.any?() %>
+  <ul>
+    <% @recipes.each() do |recipe| %>
+      <li><a href="/recipes/view/<%= recipe.id() %>"><%= recipe.name() %> 
+      <%= recipe.rating()  %>/5</a></li>
+    <% end %>
+  </ul>
+<% else %>
+  <h4>No recipes yet</h4>
+<% end %>

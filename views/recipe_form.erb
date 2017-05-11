@@ -18,6 +18,11 @@
       <% end %>
   <% else %>
     <h5>No ingredients available, can you please add your ingredients</h5>
+    <div class="checkbox form-check-inline">
+      <label class="form-check-label">
+        <input type="checkbox" name="ingredient_ids[]" value="0"> No Ingredients needed
+      </label>
+    </div>
   <% end  %>
 
   <%  if (@categories != nil ) && @categories.any?()  %>

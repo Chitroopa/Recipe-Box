@@ -1,0 +1,13 @@
+<h2> Here are the list of categories</h2>
+<% if @categories.any?() %>
+  <ul>
+    <% @categories.each() do |category| %>
+      <li><a href="/categories/view/<%= category.id() %>"><%= category.name() %></a></li>
+    <% end %>
+  </ul>
+<% else %>
+  <h4>No categories yet</h4>
+<% end %>
+<div class="col-md-2">
+  <a href="/" class = "btn btn-success active" role = "button">Home</a>
+</div>

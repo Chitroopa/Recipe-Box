@@ -1,0 +1,46 @@
+<h1><%= @category.name() %></h1>
+
+<% if @category.recipes().any?() %>
+  <ul>
+    <% @category.recipes().each() do |recipe| %>
+      <li><a href="/categories/view/<%= @category.id() %>/recipes/view/<%= recipe.id() %>"><%= recipe.name() %></a></li>
+    <% end %>
+  </ul>
+<% else %>
+  <h4>No recipes yet</h4>
+<% end %>
+
+<div class="row">
+  <br>
+  <div class="col-md-2">
+    <a href="/" class = "btn btn-success active" role = "button">Home</a>
+  </div>
+  <div class="col-md-3">
+    <button class = "btn btn-warning active rename-tag">Rename category </button>
+  </div>
+  <div class="col-md-3">
+    <form action="/categories/view/<%= @category.id() %>" method="post">
+      <input type="hidden" name="_method" value="delete">
+      <button class = "btn btn-danger active" type="submit">Delete category</button>
+    </form>
+  </div>
+</div>
+<div class="row">
+  <div id="rename-tag">
+    <form action="/categories/view/<%= @category.id() %>" method="post">
+      <input type="hidden" name="_method" value="patch">
+      <div class="form-group">
+        <label for="category-name">Rename category </label>
+        <input id="category-name" name="category-name" type="text"  class="form-control">
+      </div>
+      <button type="submit" class="btn btn-secondary">update</button>
+    </form>
+  </div>
+</div>
+
+<% if @errors != nil %>
+<h3>Oops there were some errors:</h3>
+  <ul>
+      <li><%= @errors %></li>
+  </ul>
+<% end  %>
