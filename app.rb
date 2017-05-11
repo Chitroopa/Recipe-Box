@@ -85,27 +85,52 @@ patch('/recipes/view/:recipe_id/edit/rating') do
   redirect('/recipes/view/'.concat(id.to_s()))
 end
 
+#remove ingredient from join table
 delete ('/recipes/view/:recipe_id/edit/ingredient/remove') do
   id = params.fetch('recipe_id').to_i()
   ingredient_ids = params.fetch('ingredient_ids')
   @recipe = Recipe.find(id)
-  ingredient_ids.each do |ingredient|
-    @recipe.ingredients.delete(ingredient)
+  ingredient_ids.each do |ingredient_id|
+    @recipe.ingredients.delete(ingredient_id)
   end
   redirect('/recipes/view/'.concat(id.to_s()))
 end
 
+#append ingredient o existing object
 patch('/recipes/view/:recipe_id/edit/ingredient/add') do
   id = params.fetch('recipe_id').to_i()
   ingredient_ids = params.fetch('ingredient_ids')
   @recipe = Recipe.find(id)
-  # @recipe.update({:ingredient_ids => ingredient_ids})
   ingredient_ids.each do |ingredient_id|
     ingredient = Ingredient.find(ingredient_id.to_i())
     @recipe.ingredients.push(ingredient)
   end
   redirect('/recipes/view/'.concat(id.to_s()))
 end
+
+#remove category from join table
+delete('/recipes/view/:recipe_id/edit/category/remove') do
+  recipe_id = params.fetch('recipe_id').to_i()
+  @recipe = Recipe.find(recipe_id)
+  category_ids = params.fetch('category_ids')
+  category_ids.each() do |category_id|
+    @recipe.categories.delete(category_id)
+  end
+  redirect('/recipes/view/'.concat(recipe_id.to_s()))
+end
+
+patch('/recipes/view/:recipe_id/edit/category/add') do
+  recipe_id = params.fetch('recipe_id').to_i()
+  category_ids = params.fetch('category_ids')
+  @recipe = Recipe.find(recipe_id)
+  category_ids.each do |category_id|
+    category = Category.find(category_id)
+    @recipe.categories.push(category)
+  end  
+  redirect('/recipes/view/'.concat(recipe_id.to_s()))
+end
+
+
 
 get('/recipes/view/:recipe_id/categories/view/:category_id') do
   category_id = params.fetch('category_id')
